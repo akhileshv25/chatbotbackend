@@ -35,6 +35,7 @@ public class ZoneService {
         zone.setLatitude(zoneDetails.getLatitude());
         zone.setLongitude(zoneDetails.getLongitude());
         zone.setAddress(zoneDetails.getAddress());
+        System.out.println(zoneDetails.getAddress());
         zone.setScheduleid(zoneDetails.getScheduleid());
         zone.setTimezone(zoneDetails.getTimezone());
 

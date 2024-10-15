@@ -24,7 +24,7 @@ public class Zone {
 
     private String timezone;
 
-    private  String Address;
+    private  String address;
 
     private Long scheduleid;
 }

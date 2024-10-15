@@ -19,10 +19,10 @@ public class ZoneController {
     @PostMapping("/save")
     private ResponseEntity<Zone> save(@RequestBody Zone zone) {
 
-        if(zoneService.getZoneId(zone.getZoneid())!=null)
-        {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+//        if(zoneService.getZoneId(zone.getZoneid())!=null)
+//        {
+//            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+//        }
         Zone savedZone = zoneService.createZone(zone);
         return ResponseEntity.status(HttpStatus.OK).body(savedZone);
     }
@@ -50,13 +50,13 @@ public class ZoneController {
     }
 
     @PutMapping("/list/{id}")
-    private ResponseEntity<Zone> updateZone(@PathVariable Long zoneid , @RequestBody Zone zoneDetails)
+    private ResponseEntity<Zone> updateZone(@PathVariable("id") Long zoneid , @RequestBody Zone zoneDetails)
     {
         return ResponseEntity.ok(zoneService.updateZone(zoneid,zoneDetails));
     }
 
-    @DeleteMapping("/remove")
-    private ResponseEntity<Void> deleteZone(@PathVariable Long zoneid)
+    @DeleteMapping("/remove/{id}")
+    private ResponseEntity<Void> deleteZone(@PathVariable("id") Long zoneid)
     {
         try {
 

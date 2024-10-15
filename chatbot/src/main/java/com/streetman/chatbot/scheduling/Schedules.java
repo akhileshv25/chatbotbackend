@@ -14,8 +14,6 @@ public class Schedules {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Long id;
-
     private Long scheduleid;
 
     private Long  priority;
