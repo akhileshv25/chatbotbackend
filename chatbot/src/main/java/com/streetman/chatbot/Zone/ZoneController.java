@@ -35,7 +35,7 @@ public class ZoneController {
         return  ResponseEntity.ok(Zone);
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/{id}")
     private  ResponseEntity<Zone> getzoneId(@PathVariable Long zoneid)
     {
         Zone zone = zoneService.getZoneId(zoneid);

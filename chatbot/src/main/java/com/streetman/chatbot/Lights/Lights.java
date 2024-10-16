@@ -14,8 +14,6 @@ public class Lights {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Long id;
-
     private  Long lightid;
 
     private  String serialNumber;
