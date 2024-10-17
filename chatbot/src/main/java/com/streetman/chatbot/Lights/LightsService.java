@@ -35,18 +35,29 @@ public class LightsService {
 
     //PUT
 
-    public Lights updateLights(Long lightid,Lights lightsDetails)
-    {
+    public Lights updateLights(Long lightid, Lights lightsDetails) {
         Lights lights = getLightById(lightid);
 
-        lights.setSerialNumber(lightsDetails.getSerialNumber());
-        lights.setModel(lightsDetails.getModel());
-        lights.setLightstate(lightsDetails.getLightstate());
-        lights.setLightstate(lightsDetails.getLightstate());
-        lights.setLightlevel(lightsDetails.getLightlevel());
+        if (lightsDetails.getSerialNumber() != null) {
+            lights.setSerialNumber(lightsDetails.getSerialNumber());
+        }
+        if (lightsDetails.getModel() != null) {
+            lights.setModel(lightsDetails.getModel());
+        }
+        if (lightsDetails.getLightstate() != null) {
+            lights.setLightstate(lightsDetails.getLightstate());
+        }
+        if (lightsDetails.getLightlevel() != null) {
+            lights.setLightlevel(lightsDetails.getLightlevel());
+        }
+        if (lightsDetails.getZoneid() != null) {
+            lights.setZoneid(lightsDetails.getZoneid());
+        }
+
 
         return lightsRepository.save(lights);
     }
+
 
     //Delete
 
