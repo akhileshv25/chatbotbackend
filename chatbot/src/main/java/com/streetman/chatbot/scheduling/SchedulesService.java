@@ -35,14 +35,32 @@ public class SchedulesService {
     {
         Schedules schedules = getBySchedulesId(scheduleid);
 
-        schedules.setPriority(schedulesDetails.getPriority());
-        schedules.setStarttime(schedulesDetails.getStarttime());
-        schedules.setEndtime(schedulesDetails.getEndtime());
-        schedules.setEnddate(schedulesDetails.getEnddate());
-        schedules.setStartdate(schedulesDetails.getStartdate());
-        schedules.setRecurrenceRule(schedulesDetails.getRecurrenceRule());
-        schedules.setLightlevel(schedulesDetails.getLightlevel());
-        schedules.setLightstate(schedulesDetails.getLightstate());
+        if(schedulesDetails.getPriority() != null) {
+            schedules.setPriority(schedulesDetails.getPriority());
+        }
+        if(schedulesDetails.getStarttime()!=null) {
+            schedules.setStarttime(schedulesDetails.getStarttime());
+        }
+
+        if(schedulesDetails.getEndtime()!=null) {
+            schedules.setEndtime(schedulesDetails.getEndtime());
+        }
+
+        if(schedulesDetails.getEnddate()!=null) {
+            schedules.setEnddate(schedulesDetails.getEnddate());
+        }
+        if(schedulesDetails.getStartdate()!=null) {
+            schedules.setStartdate(schedulesDetails.getStartdate());
+        }
+        if(schedulesDetails.getRecurrenceRule()!=null) {
+            schedules.setRecurrenceRule(schedulesDetails.getRecurrenceRule());
+        }
+        if(schedulesDetails.getLightlevel()!=null) {
+            schedules.setLightlevel(schedulesDetails.getLightlevel());
+        }
+        if(schedulesDetails.getLightstate()!=null) {
+            schedules.setLightstate(schedulesDetails.getLightstate());
+        }
 
         return schedulesRepository.save(schedules);
     }

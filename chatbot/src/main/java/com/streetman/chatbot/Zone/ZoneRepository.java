@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface ZoneRepository extends JpaRepository<Zone,Long> {
 
+    Optional<Zone> findByName(String name);
 }

@@ -1,5 +1,6 @@
 package com.streetman.chatbot.Zone;
 
+import com.streetman.chatbot.Lights.LightsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,8 @@ import java.util.List;
 public class ZoneService {
     @Autowired
     private ZoneRepository zoneRepository;
+    @Autowired
+    private LightsRepository lightsRepository;
 
     public Zone createZone(Zone zone)
     {
@@ -31,13 +34,23 @@ public class ZoneService {
     {
         Zone zone =  getZoneId(zoneid);
 
-        zone.setName(zoneDetails.getName());
-        zone.setLatitude(zoneDetails.getLatitude());
-        zone.setLongitude(zoneDetails.getLongitude());
-        zone.setAddress(zoneDetails.getAddress());
+        if(zoneDetails.getName()!=null) {
+            zone.setName(zoneDetails.getName());
+        }
+        if(zoneDetails.getLatitude()!=null) {
+            zone.setLatitude(zoneDetails.getLatitude());
+        }
+        if(zoneDetails.getLongitude()!=null) {
+            zone.setLongitude(zoneDetails.getLongitude());
+        }
+        if(zoneDetails.getAddress()!=null) {
+            zone.setAddress(zoneDetails.getAddress());
+        }
         System.out.println(zoneDetails.getAddress());
-        zone.setScheduleid(zoneDetails.getScheduleid());
-        zone.setTimezone(zoneDetails.getTimezone());
+
+        if(zoneDetails.getTimezone()!=null) {
+            zone.setTimezone(zoneDetails.getTimezone());
+        }
 
         return zoneRepository.save(zone);
     }
@@ -48,6 +61,9 @@ public class ZoneService {
                 .orElseThrow(() -> new RuntimeException("Zone Id Not found"));
         zoneRepository.delete(zone);
     }
+
+
+
 
 
 }
