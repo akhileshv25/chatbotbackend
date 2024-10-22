@@ -24,6 +24,10 @@ public class ZoneService {
         return zoneRepository.findAll();
     }
 
+    public List<String> getZoneNames() {
+        return zoneRepository.findAllZoneNames();
+    }
+
     public Zone getZoneId(Long zoneid)
     {
         return zoneRepository.findById(zoneid)

@@ -35,6 +35,13 @@ public class ZoneController {
         return  ResponseEntity.ok(Zone);
     }
 
+    @GetMapping("/AllZone")
+    private ResponseEntity<List<String>> getZoneName()
+    {
+        List<String> zone = zoneService.getZoneNames();
+        return ResponseEntity.ok(zone);
+    }
+
     @GetMapping("/{id}")
     private  ResponseEntity<Zone> getzoneId(@PathVariable Long zoneid)
     {

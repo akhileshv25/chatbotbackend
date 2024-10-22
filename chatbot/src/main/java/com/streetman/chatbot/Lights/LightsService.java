@@ -73,23 +73,23 @@ public class LightsService {
         lightsRepository.delete(lights);
     }
 
-    @Transactional
-    public boolean updateLightStateByZoneName(String zoneName, Lights lightData) {
-        Optional<Zone> optionalZone = zoneRepository.findByName(zoneName);
+        @Transactional
+        public boolean updateLightStateByZoneName(String zoneName, Lights lightData) {
+            Optional<Zone> optionalZone = zoneRepository.findByName(zoneName);
 
-        if (optionalZone.isEmpty()) {
-            return false;
+            if (optionalZone.isEmpty()) {
+                return false;
+            }
+
+            Zone zone = optionalZone.get();
+
+            zone.getLights().forEach(light -> {
+                light.setLightstate(lightData.getLightstate());
+                lightsRepository.save(light);
+            });
+
+            return true;
         }
-
-        Zone zone = optionalZone.get();
-
-        zone.getLights().forEach(light -> {
-            light.setLightstate(lightData.getLightstate());
-            lightsRepository.save(light);
-        });
-
-        return true;
-    }
 
     public List<String> getLightStateInZone(String zoneName) {
         Optional<Zone> optionalZone = zoneRepository.findByName(zoneName);
