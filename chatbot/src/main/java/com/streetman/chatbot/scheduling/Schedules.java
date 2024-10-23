@@ -18,6 +18,9 @@ public class Schedules {
     private Long scheduleid;
 
     @Column(nullable = false)
+    private String schedulename;
+
+    @Column(nullable = false)
     private Long  priority;
 
     @Column(nullable = false)
