@@ -1,5 +1,6 @@
 package com.streetman.chatbot.Zone;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.streetman.chatbot.Lights.Lights;
 import com.streetman.chatbot.scheduling.Schedules;
 import jakarta.persistence.*;
@@ -37,8 +38,10 @@ public class Zone {
 
 
     @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Lights> lights;
 
     @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Schedules> schedules;
 }

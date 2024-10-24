@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface ZoneRepository extends JpaRepository<Zone,Long> {
 
-    Optional<Zone> findByName(String name);
+        Optional<Zone> findByName(String name);
 
     @Query("SELECT z.name FROM Zone z")
     List<String> findAllZoneNames();

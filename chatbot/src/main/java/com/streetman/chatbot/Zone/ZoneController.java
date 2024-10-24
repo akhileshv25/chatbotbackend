@@ -56,6 +56,17 @@ public class ZoneController {
         }
     }
 
+    @GetMapping("/byName/{name}")
+    private ResponseEntity<Long> getZoneIdByName(@PathVariable String name) {
+        Zone zone = zoneService.getZoneByName(name);
+        if (zone != null) {
+            return ResponseEntity.ok(zone.getZoneid());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
     @PutMapping("/list/{id}")
     private ResponseEntity<Zone> updateZone(@PathVariable("id") Long zoneid , @RequestBody Zone zoneDetails)
     {

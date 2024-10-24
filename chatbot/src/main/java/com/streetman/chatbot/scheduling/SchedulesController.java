@@ -1,6 +1,8 @@
 package com.streetman.chatbot.scheduling;
 
 
+import com.streetman.chatbot.Zone.Zone;
+import com.streetman.chatbot.Zone.ZoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ public class SchedulesController {
 
     @Autowired
     private SchedulesService schedulesService;
+    @Autowired
+    private ZoneService zoneService;
 
     @PostMapping("/save")
     public ResponseEntity<Schedules> save(@RequestBody Schedules schedules)

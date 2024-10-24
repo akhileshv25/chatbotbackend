@@ -1,10 +1,12 @@
 package com.streetman.chatbot.Zone;
 
 import com.streetman.chatbot.Lights.LightsRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -27,6 +29,17 @@ public class ZoneService {
     public List<String> getZoneNames() {
         return zoneRepository.findAllZoneNames();
     }
+
+    public Zone getZoneByName(String name) {
+        Optional<Zone> zoneOptional = zoneRepository.findByName(name);
+
+        if (zoneOptional.isPresent()) {
+            return zoneOptional.get();
+        } else {
+            throw new EntityNotFoundException("Zone not found with name: " + name);
+        }
+    }
+
 
     public Zone getZoneId(Long zoneid)
     {
