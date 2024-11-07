@@ -114,4 +114,11 @@ public class LightsController {
             return ResponseEntity.status(404).body("Zone with name " + zoneName + " not found.");
         }
     }
+
+    @GetMapping("zone/light/{zoneName}")
+    public ResponseEntity<List<Light>> getZoneLight(@PathVariable String zoneName)
+    {
+        List<Light> LightInZone = lightsService.getLightByZone(zoneName);
+        return ResponseEntity.ok(LightInZone);
+    }
 }

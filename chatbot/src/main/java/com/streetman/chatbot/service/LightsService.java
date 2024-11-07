@@ -155,4 +155,17 @@ public class LightsService {
         return true;
     }
 
+
+    public List<Light> getLightByZone(String zoneName) {
+        Optional<Zone> optionalZone = zoneRepository.findByName(zoneName);
+
+        if (optionalZone.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        Zone zone = optionalZone.get();
+
+        return zone.getLights();
+    }
+
 }
