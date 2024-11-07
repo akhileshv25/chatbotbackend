@@ -114,6 +114,26 @@ public class LightsService {
 
         return lightStates;
     }
+    public List<Integer> getBrightnessInZone(String zoneName) {
+        Optional<Zone> optionalZone = zoneRepository.findByName(zoneName);
+
+        if (optionalZone.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        Zone zone = optionalZone.get();
+
+        List<Light> zoneBrightness = zone.getLights();
+
+        List<Integer> lightlevel = new ArrayList<>();
+
+        for (Light light : zoneBrightness) {
+            lightlevel.add(light.getLightlevel());
+        }
+
+        return lightlevel;
+    }
+
     @Transactional
     public boolean updateLightBrightnessByZoneName(String zoneName, Integer brightnessLevel) {
         Optional<Zone> optionalZone = zoneRepository.findByName(zoneName);

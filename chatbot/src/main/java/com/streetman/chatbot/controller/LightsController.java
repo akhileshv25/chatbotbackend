@@ -93,6 +93,13 @@ public class LightsController {
         List<Lightstate> lights = lightsService.getLightStateInZone(zoneName);
         return ResponseEntity.ok(lights);
     }
+
+    @GetMapping("/zone/lightslevel/{zoneName}")
+    public ResponseEntity<List<Integer>> getlightlevel(@PathVariable String zoneName) {
+        List<Integer> lights = lightsService.getBrightnessInZone(zoneName);
+        return ResponseEntity.ok(lights);
+    }
+
     @PutMapping("/update-brightness/{zoneName}")
     public ResponseEntity<String> updateLightBrightness(@PathVariable String zoneName, @RequestParam Integer brightnessLevel) {
         boolean isUpdated = lightsService.updateLightBrightnessByZoneName(zoneName, brightnessLevel);
