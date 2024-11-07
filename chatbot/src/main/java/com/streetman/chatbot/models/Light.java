@@ -1,6 +1,5 @@
-package com.streetman.chatbot.Lights;
+package com.streetman.chatbot.models;
 
-import com.streetman.chatbot.Zone.Zone;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "Light")
-public class Lights {
+public class Light {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,8 @@ public class Lights {
     private  Integer lightlevel;
 
     @Column(nullable = false)
-    private String lightstate;
+    @Enumerated(EnumType.STRING)
+    private Lightstate lightstate;
 
     @ManyToOne
     @JoinColumn(name = "zoneid", nullable = false)

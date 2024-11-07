@@ -1,9 +1,9 @@
-package com.streetman.chatbot.scheduling;
+package com.streetman.chatbot.service;
 
-import com.streetman.chatbot.Lights.Lights;
+import com.streetman.chatbot.models.Schedule;
+import com.streetman.chatbot.repository.SchedulesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -13,27 +13,27 @@ public class SchedulesService {
     @Autowired
     private SchedulesRepository schedulesRepository;
     //POST
-    public Schedules createSechedules(Schedules schedules)
+    public Schedule createSechedules(Schedule schedules)
     {
         return schedulesRepository.save(schedules);
     }
 
     //GET
-    public List<Schedules> getAllSechedules()
+    public List<Schedule> getAllSechedules()
     {
         return schedulesRepository.findAll();
     }
     //GET
-    public Schedules getBySchedulesId(Long scheduleid)
+    public Schedule getBySchedulesId(Long scheduleid)
     {
         return schedulesRepository.findById(scheduleid) .orElseThrow(() -> new RuntimeException("schedules not found"));
     }
 
     //PUT
 
-    public Schedules updateSchedules(Long scheduleid,Schedules schedulesDetails)
+    public Schedule updateSchedules(Long scheduleid, Schedule schedulesDetails)
     {
-        Schedules schedules = getBySchedulesId(scheduleid);
+        Schedule schedules = getBySchedulesId(scheduleid);
 
         if(schedulesDetails.getPriority() != null) {
             schedules.setPriority(schedulesDetails.getPriority());
@@ -67,7 +67,7 @@ public class SchedulesService {
 
     public void deleteByScheduleId(Long scheduleid)
     {
-        Schedules schedules = schedulesRepository.findById(scheduleid).orElseThrow();
+        Schedule schedules = schedulesRepository.findById(scheduleid).orElseThrow(()->new RuntimeException("Schedule Id not found"));
         schedulesRepository.delete(schedules);
     }
 }

@@ -1,6 +1,5 @@
-package com.streetman.chatbot.scheduling;
+package com.streetman.chatbot.models;
 
-import com.streetman.chatbot.Zone.Zone;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "Schedules")
-public class Schedules {
+public class Schedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +41,8 @@ public class Schedules {
     private  Integer lightlevel;
 
     @Column(nullable = false)
-    private  String lightstate;
+    @Enumerated(EnumType.STRING)
+    private  Lightstate lightstate;
 
     @ManyToOne
     @JoinColumn(name = "zoneid", nullable = false)

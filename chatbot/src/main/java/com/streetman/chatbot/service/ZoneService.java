@@ -1,6 +1,8 @@
-package com.streetman.chatbot.Zone;
+package com.streetman.chatbot.service;
 
-import com.streetman.chatbot.Lights.LightsRepository;
+import com.streetman.chatbot.repository.LightsRepository;
+import com.streetman.chatbot.models.Zone;
+import com.streetman.chatbot.repository.ZoneRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ public class ZoneService {
     {
         return zoneRepository.findAll();
     }
+
 
     public List<String> getZoneNames() {
         return zoneRepository.findAllZoneNames();

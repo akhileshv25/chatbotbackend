@@ -1,6 +1,8 @@
-package com.streetman.chatbot.Zone;
+package com.streetman.chatbot.controller;
 
 
+import com.streetman.chatbot.models.Zone;
+import com.streetman.chatbot.service.ZoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,18 +26,18 @@ public class ZoneController {
 //            return ResponseEntity.status(HttpStatus.CONFLICT).build();
 //        }
         Zone savedZone = zoneService.createZone(zone);
-        return ResponseEntity.status(HttpStatus.OK).body(savedZone);
+        return ResponseEntity.ok(savedZone);
     }
 
 
-    @GetMapping("/listAll")
+    @GetMapping("/list")
     private ResponseEntity<List<Zone>> getAllZone()
     {
         List<Zone> Zone = zoneService.getAllZone();
         return  ResponseEntity.ok(Zone);
     }
 
-    @GetMapping("/AllZone")
+    @GetMapping("/list/zonename")
     private ResponseEntity<List<String>> getZoneName()
     {
         List<String> zone = zoneService.getZoneNames();
@@ -70,7 +72,8 @@ public class ZoneController {
     @PutMapping("/list/{id}")
     private ResponseEntity<Zone> updateZone(@PathVariable("id") Long zoneid , @RequestBody Zone zoneDetails)
     {
-        return ResponseEntity.ok(zoneService.updateZone(zoneid,zoneDetails));
+        Zone zone = zoneService.updateZone(zoneid,zoneDetails);
+        return ResponseEntity.ok(zone);
     }
 
 

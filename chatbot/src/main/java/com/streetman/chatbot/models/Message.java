@@ -1,4 +1,4 @@
-package com.streetman.chatbot.User;
+package com.streetman.chatbot.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

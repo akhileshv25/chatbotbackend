@@ -1,5 +1,7 @@
-package com.streetman.chatbot.User;
+package com.streetman.chatbot.service;
 
+import com.streetman.chatbot.models.User;
+import com.streetman.chatbot.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,9 @@
-package com.streetman.chatbot.scheduling;
+package com.streetman.chatbot.controller;
 
 
-import com.streetman.chatbot.Zone.Zone;
-import com.streetman.chatbot.Zone.ZoneService;
+import com.streetman.chatbot.models.Schedule;
+import com.streetman.chatbot.service.SchedulesService;
+import com.streetman.chatbot.service.ZoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,28 +18,25 @@ public class SchedulesController {
 
     @Autowired
     private SchedulesService schedulesService;
-    @Autowired
-    private ZoneService zoneService;
 
     @PostMapping("/save")
-    public ResponseEntity<Schedules> save(@RequestBody Schedules schedules)
+    public ResponseEntity<Schedule> save(@RequestBody Schedule schedules)
     {
-        Schedules saveSchedules = schedulesService.createSechedules(schedules);
-        return ResponseEntity.status(HttpStatus.OK).body(saveSchedules);
+        Schedule saveSchedules = schedulesService.createSechedules(schedules);
+        return ResponseEntity.ok(saveSchedules);
     }
 
-
     @GetMapping("/list")
-    public ResponseEntity<List<Schedules>> getAllSchedules()
+    public ResponseEntity<List<Schedule>> getAllSchedules()
     {
-        List<Schedules> schedules = schedulesService.getAllSechedules();
+        List<Schedule> schedules = schedulesService.getAllSechedules();
         return ResponseEntity.ok(schedules);
     }
 
     @GetMapping("/list/{scheduleid}")
-    public  ResponseEntity<Schedules> getSchedulesById(@PathVariable Long scheduleid)
+    public  ResponseEntity<Schedule> getSchedulesById(@PathVariable Long scheduleid)
     {
-        Schedules schedules = schedulesService.getBySchedulesId(scheduleid);
+        Schedule schedules = schedulesService.getBySchedulesId(scheduleid);
         if(schedules!=null)
         {
             return ResponseEntity.ok(schedules);
@@ -50,7 +48,7 @@ public class SchedulesController {
     }
 
     @PutMapping("list/{id}")
-    public ResponseEntity<Schedules> updateSchedules(@PathVariable("id") Long scheduleid , @RequestBody Schedules scheduleDetasils)
+    public ResponseEntity<Schedule> updateSchedules(@PathVariable("id") Long scheduleid , @RequestBody Schedule scheduleDetasils)
     {
         return  ResponseEntity.ok(schedulesService.updateSchedules(scheduleid,scheduleDetasils));
     }

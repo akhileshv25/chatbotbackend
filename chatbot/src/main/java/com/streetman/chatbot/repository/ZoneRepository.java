@@ -1,6 +1,7 @@
-package com.streetman.chatbot.Zone;
+package com.streetman.chatbot.repository;
 
 
+import com.streetman.chatbot.models.Zone;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

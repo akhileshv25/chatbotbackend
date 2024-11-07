@@ -1,6 +1,7 @@
-package com.streetman.chatbot.User;
+package com.streetman.chatbot.controller;
 
-import com.streetman.chatbot.Lights.Lights;
+import com.streetman.chatbot.models.User;
+import com.streetman.chatbot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

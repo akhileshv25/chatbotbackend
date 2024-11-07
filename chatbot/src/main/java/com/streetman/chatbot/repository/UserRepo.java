@@ -1,5 +1,6 @@
-package com.streetman.chatbot.User;
+package com.streetman.chatbot.repository;
 
+import com.streetman.chatbot.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
