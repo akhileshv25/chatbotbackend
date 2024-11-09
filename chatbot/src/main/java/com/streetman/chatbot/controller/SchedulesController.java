@@ -4,6 +4,7 @@ package com.streetman.chatbot.controller;
 import com.streetman.chatbot.models.Schedule;
 import com.streetman.chatbot.service.SchedulesService;
 import com.streetman.chatbot.service.ZoneService;
+import com.sun.jdi.event.StepEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,12 @@ public class SchedulesController {
         List<Schedule> schedules = schedulesService.getAllSechedules();
         return ResponseEntity.ok(schedules);
     }
-
+    @GetMapping("/listbyzone/{zoneName}")
+    public ResponseEntity<List<Schedule>> getSchedulesByZoneName(@PathVariable String zoneName)
+    {
+        List<Schedule> schedules = schedulesService.getScheduleInZone(zoneName);
+        return ResponseEntity.ok(schedules);
+    }
     @GetMapping("/list/{scheduleid}")
     public  ResponseEntity<Schedule> getSchedulesById(@PathVariable Long scheduleid)
     {
