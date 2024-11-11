@@ -41,10 +41,21 @@ public class LightsController {
     }
 
     @PutMapping("/change/{id}")
-    public ResponseEntity<Light> updateLights(@PathVariable("id") Long lightid , @RequestBody Light lights)
-    {
-       return  ResponseEntity.ok(lightsService.updateLights(lightid,lights));
+    public ResponseEntity<String> updateLightState(@PathVariable("id") Long lightid, @RequestBody Light lightData) {
+        String resultMessage = lightsService.processTheLightState(lightid, lightData);
+
+        switch (resultMessage) {
+            case "Light is already ON":
+            case "Light is already OFF":
+                return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(resultMessage);
+            case "Light has been turned ON":
+            case "Light has been turned OFF":
+                return ResponseEntity.ok(resultMessage);
+            default:
+                return ResponseEntity.badRequest().body("Failed to update light state.");
+        }
     }
+
 
     @DeleteMapping("/remove/{id}")
     private ResponseEntity<Void> deleteZone(@PathVariable("id") Long ligthid)
@@ -58,34 +69,27 @@ public class LightsController {
         }
     }
 
-    @PutMapping("/update-state/{zoneName}")
+    @PutMapping("/update/state/{zoneName}")
     public ResponseEntity<String> updateLightState(@PathVariable String zoneName, @RequestBody Light lightData) {
-        List<Lightstate> lightStates = lightsService.getLightStateInZone(zoneName);
+        String resultMessage = lightsService.processLightStateUpdate(zoneName, lightData);
 
-        if (lightStates.isEmpty()) {
-            return ResponseEntity.badRequest().body("Zone not found.");
-        }
+        switch (resultMessage) {
+            case "Zone not found":
+                return ResponseEntity.badRequest().body(resultMessage);
 
-        Lightstate currentStatus = lightStates.get(0);
-        Lightstate requestedState = lightData.getLightstate();
+            case "All lights in zone are already ON.":
+            case "All lights in zone are already OFF.":
+                return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(resultMessage);
 
-        if (currentStatus == requestedState) {
-            if (currentStatus == Lightstate.ON) {
-                return ResponseEntity.status(HttpStatus.ALREADY_REPORTED)
-                        .body("Lights are already ON.");
-            } else {
-                return ResponseEntity.status(HttpStatus.ALREADY_REPORTED)
-                        .body("Lights are already OFF.");
-            }
-        }
-        boolean updated = lightsService.updateLightStateByZoneName(zoneName, lightData);
+            case "Turning on all lights in zone.":
+            case "Turning off all lights in zone.":
+                return ResponseEntity.ok(resultMessage);
 
-        if (updated) {
-            return ResponseEntity.ok("Light state updated successfully.");
-        } else {
-            return ResponseEntity.badRequest().body("Failed to update light state.");
+            default:
+                return ResponseEntity.badRequest().body("Unexpected response: " + resultMessage);
         }
     }
+
 
 
     @GetMapping("/lights-state/zone/{zoneName}")
@@ -111,14 +115,14 @@ public class LightsController {
         }
     }
 
-    @PutMapping("/brightness/update/zone/light/{zoneName}")
-    public  ResponseEntity<String> updateZoneLightBrightness(@PathVariable String zoneName, @RequestParam Long lightid,@RequestParam Integer brightnessLevel)
+    @PutMapping("/brightness/update/{lightid}")
+    public  ResponseEntity<String> updateZoneLightBrightness(@PathVariable Long lightid, @RequestParam Integer brightnessLevel)
     {
-        boolean isUpdated = lightsService.updateLightBrightnessByZoneNameAndSerial(zoneName,lightid,brightnessLevel);
+        boolean isUpdated = lightsService.updateLightBrightness(lightid,brightnessLevel);
         if (isUpdated) {
-            return ResponseEntity.ok("Brightness updated successfully for light: "+lightid+ "Zone " + zoneName);
+            return ResponseEntity.ok("Brightness updated successfully for light: "+lightid);
         } else {
-            return ResponseEntity.status(404).body("Zone with name " + zoneName + " not found.");
+            return ResponseEntity.status(404).body("light with id " + lightid + " not found.");
         }
     }
 
