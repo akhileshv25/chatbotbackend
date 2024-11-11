@@ -79,7 +79,12 @@ public class SchedulesService {
         Schedule schedules = schedulesRepository.findById(scheduleid).orElseThrow(()->new RuntimeException("Schedule Id not found"));
         schedulesRepository.delete(schedules);
     }
+    public  void  deleteScheduleByName(String schedulename)
+    {
+        Schedule schedule = schedulesRepository.findBySchedulename(schedulename).orElseThrow();
+        schedulesRepository.delete(schedule);
 
+    }
     public List<Schedule> getScheduleInZone(String zoneName) {
         Optional<Zone> zoneOptional = zoneRepository.findByName(zoneName);
 

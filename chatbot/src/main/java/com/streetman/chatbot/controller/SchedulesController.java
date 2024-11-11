@@ -72,4 +72,18 @@ public class SchedulesController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @DeleteMapping("/remove/byname/{schedulename}")
+    private ResponseEntity<Void> deleteZone(@PathVariable("schedulename") String schedulename)
+    {
+        try {
+
+            schedulesService.deleteScheduleByName(schedulename);
+            return ResponseEntity.ok().build();
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
