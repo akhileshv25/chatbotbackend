@@ -25,9 +25,9 @@ public class LightsService {
     private ZoneRepository zoneRepository;
 
     //POST
-    public Light createLights(Light lights)
+    public List<Light> createLights(List<Light> lights)
     {
-        return lightsRepository.save(lights);
+        return lightsRepository.saveAll(lights);
     }
 
     //GET

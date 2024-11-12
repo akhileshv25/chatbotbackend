@@ -19,9 +19,9 @@ public class LightsController {
     private LightsService lightsService;
 
     @PostMapping("/save")
-    public ResponseEntity<Light> save(@RequestBody Light lights)
+    public ResponseEntity<List<Light>> save(@RequestBody List<Light> lights)
     {
-        Light saveLights = lightsService.createLights(lights);
+        List<Light> saveLights = lightsService.createLights(lights);
         return ResponseEntity.ok(saveLights);
 
     }
@@ -36,8 +36,12 @@ public class LightsController {
     @GetMapping("/list/{lightid}")
     public ResponseEntity<Light> getLightsById(@PathVariable Long lightid)
     {
-        Light lights = lightsService.getLightById(lightid);
-        return ResponseEntity.ok(lights);
+        try {
+            Light lights = lightsService.getLightById(lightid);
+            return ResponseEntity.ok(lights);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     @PutMapping("/change/{id}")

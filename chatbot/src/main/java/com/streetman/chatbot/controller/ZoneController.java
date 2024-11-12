@@ -19,13 +19,13 @@ public class ZoneController {
     private ZoneService zoneService;
 
     @PostMapping("/save")
-    private ResponseEntity<Zone> save(@RequestBody Zone zone) {
+    private ResponseEntity<List<Zone>> save(@RequestBody List<Zone> zones) {
 
 //        if(zoneService.getZoneId(zone.getZoneid())!=null)
 //        {
 //            return ResponseEntity.status(HttpStatus.CONFLICT).build();
 //        }
-        Zone savedZone = zoneService.createZone(zone);
+       List<Zone> savedZone = zoneService.createZone(zones);
         return ResponseEntity.ok(savedZone);
     }
 

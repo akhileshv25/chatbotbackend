@@ -18,9 +18,9 @@ public class ZoneService {
     @Autowired
     private LightsRepository lightsRepository;
 
-    public Zone createZone(Zone zone)
+    public List<Zone> createZone(List<Zone> zone)
     {
-        return zoneRepository.save(zone);
+        return zoneRepository.saveAll(zone);
     }
 
     public List<Zone> getAllZone()
