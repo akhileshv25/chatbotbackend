@@ -48,16 +48,7 @@ public class LightsController {
     public ResponseEntity<String> updateLightState(@PathVariable("id") Long lightid, @RequestBody Light lightData) {
         String resultMessage = lightsService.processTheLightState(lightid, lightData);
 
-        switch (resultMessage) {
-            case "Light is already ON":
-            case "Light is already OFF":
-                return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(resultMessage);
-            case "Light has been turned ON":
-            case "Light has been turned OFF":
-                return ResponseEntity.ok(resultMessage);
-            default:
-                return ResponseEntity.badRequest().body("Failed to update light state.");
-        }
+        return ResponseEntity.ok(resultMessage);
     }
 
 
@@ -77,21 +68,7 @@ public class LightsController {
     public ResponseEntity<String> updateLightState(@PathVariable String zoneName, @RequestBody Light lightData) {
         String resultMessage = lightsService.processLightStateUpdate(zoneName, lightData);
 
-        switch (resultMessage) {
-            case "Zone not found":
-                return ResponseEntity.badRequest().body(resultMessage);
-
-            case "All lights in zone are already ON.":
-            case "All lights in zone are already OFF.":
-                return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(resultMessage);
-
-            case "Turning on all lights in zone.":
-            case "Turning off all lights in zone.":
-                return ResponseEntity.ok(resultMessage);
-
-            default:
-                return ResponseEntity.badRequest().body("Unexpected response: " + resultMessage);
-        }
+        return  ResponseEntity.ok(resultMessage);
     }
 
 
@@ -135,5 +112,23 @@ public class LightsController {
     {
         List<Light> LightInZone = lightsService.getLightByZone(zoneName);
         return ResponseEntity.ok(LightInZone);
+    }
+
+    @PutMapping("/toggle")
+    public ResponseEntity<String> toggleLightInZone(
+            @RequestParam String zoneName,
+            @RequestParam Long lightId,
+            @RequestParam String newState) {
+        String result = lightsService.toggleLightState(zoneName, lightId, newState);
+        return ResponseEntity.ok(result);
+    }
+    @PutMapping("/update/brightness")
+    public ResponseEntity<String> updateBrightness(
+            @RequestParam String zoneName,
+            @RequestParam Long lightId,
+            @RequestParam Integer brightnessLevel) {
+
+        String result = lightsService.brightnessBylightidAndZoneName(zoneName, lightId, brightnessLevel);
+        return ResponseEntity.ok(result);
     }
 }

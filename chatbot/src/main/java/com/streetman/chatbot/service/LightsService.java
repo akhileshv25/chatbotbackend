@@ -205,35 +205,117 @@ public class LightsService {
 
         if (requestedState == Lightstate.OFF) {
             if (allOff) {
-                return "All lights in zone are already OFF.";
+                return "All lights in " + zoneName +" are already OFF.";
             } else {
                 updateLightStateByZoneName(zoneName, lightData);
-                return "Turning off all lights in zone.";
+                return "Turning off all lights in "+ zoneName;
             }
         } else if (requestedState == Lightstate.ON) {
             if (allOn) {
-                return "All lights in zone are already ON.";
+                return "All lights in "+zoneName+"are already ON.";
             } else {
                 updateLightStateByZoneName(zoneName, lightData);
-                return "Turning on all lights in zone.";
+                return "Turning on all lights in "+zoneName;
             }
         }
         return "Failed to update light state";
     }
 
     public String processTheLightState(Long lightid, Light lightData) {
-        Light existingLight = getLightById(lightid);
-        Lightstate currentState = existingLight.getLightstate();
-        Lightstate requestedState = lightData.getLightstate();
+        try {
+            Light existingLight = getLightById(lightid);
+            Lightstate currentState = existingLight.getLightstate();
+            Lightstate requestedState = lightData.getLightstate();
+            if (currentState == requestedState) {
+                return currentState == Lightstate.ON ? "Light "+lightid+" is already ON" : "Light "+lightid+" is already OFF";
+            }
 
-        if (currentState == requestedState) {
-            return currentState == Lightstate.ON ? "Light is already ON" : "Light is already OFF";
+            existingLight.setLightstate(requestedState);
+            lightsRepository.save(existingLight);
+
+            return requestedState == Lightstate.ON ? "Light "+lightid+" has been turned ON" : "Light "+lightid+" has been turned OFF";
+        } catch (Exception e) {
+            return "ID Not Found";
         }
 
-        existingLight.setLightstate(requestedState);
-        lightsRepository.save(existingLight);
 
-        return requestedState == Lightstate.ON ? "Light has been turned ON" : "Light has been turned OFF";
+
+
+    }
+
+
+    public String toggleLightState(String zoneName, Long lightId, String newState) {
+        try {
+            Optional<Zone> zoneOpt = zoneRepository.findByName(zoneName);
+            if (zoneOpt.isEmpty()) {
+                return "Zone not found.";
+            }
+            Zone zone = zoneOpt.get();
+
+            try {
+                Optional<Light> lightOpt = lightsRepository.findByLightidAndZone(lightId, zone);
+                if (lightOpt.isEmpty()) {
+                    return "Light " + lightId + " not found in \nthe specified zone.";
+                }
+
+                Light light = lightOpt.get();
+                Lightstate requestedState;
+
+                try {
+                    requestedState = Lightstate.valueOf(newState.toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    return "Invalid light state. \nPlease specify 'ON' or 'OFF'.";
+                }
+
+                if (light.getLightstate().equals(requestedState)) {
+                    return "Light " + lightId + " in " + zoneName + " is already " + newState + ".";
+                }
+
+                light.setLightstate(requestedState);
+                lightsRepository.save(light);
+
+                return "Light " + lightId + " has been turned " + newState + " in " + zoneName + ".";
+            } catch (Exception e) {
+                return "Light ID Not Found";
+            }
+        } catch (Exception e) {
+            return "Zone not found";
+        }
+    }
+
+
+    public String brightnessBylightidAndZoneName(String zoneName, Long lightId, Integer newLevel) {
+        try {
+            Optional<Zone> zoneOpt = zoneRepository.findByName(zoneName);
+            if (zoneOpt.isEmpty()) {
+                return "Zone not found.";
+            }
+            Zone zone = zoneOpt.get();
+
+            try {
+                Optional<Light> lightOpt = lightsRepository.findByLightidAndZone(lightId, zone);
+                if (lightOpt.isEmpty()) {
+                    return "Light " + lightId + " not \nfound in the specified zone.";
+                }
+
+                Light light = lightOpt.get();
+                Integer currentLevel = light.getLightlevel();
+
+                if (currentLevel.equals(newLevel)) {
+                    return "Light " + lightId + " in " + zoneName + " is \nalready at brightness level " + newLevel + ".";
+                }
+
+                light.setLightlevel(newLevel);
+                lightsRepository.save(light);
+
+                return "Brightness level of Light " + lightId + " in \n" + zoneName + " has been set to " + newLevel + ".";
+            } catch (Exception e) {
+                return "An error occurred while updating the light level.";
+            }
+        } catch (Exception e) {
+            return "Zone not found.";
+        }
     }
 
 }
+
